@@ -50,9 +50,9 @@ def createGraph():
 	# on 2d convolutions
 	# given 4D inputs and filters
 
-	conv1 = tf.nn.RELU(tf.nn.conv2d(s, W_conv1, strides[1, 4, 4, 1] padding = "VALID") + b_conv1)
-	conv2 = tf.nn.RELU(tf.nn.conv2d(s, W_conv2, strides[1, 4, 4, 1] padding = "VALID") + b_conv2)
-	conv3 = tf.nn.RELU(tf.nn.conv2d(s, W_conv3, strides[1, 4, 4, 1] padding = "VALID") + b_conv3)
+	conv1 = tf.nn.RELU(tf.nn.conv2d(s, W_conv1, strides[1, 4, 4, 1], padding = "VALID") + b_conv1)
+	conv2 = tf.nn.RELU(tf.nn.conv2d(s, W_conv2, strides[1, 4, 4, 1], padding = "VALID") + b_conv2)
+	conv3 = tf.nn.RELU(tf.nn.conv2d(s, W_conv3, strides[1, 4, 4, 1], padding = "VALID") + b_conv3)
 
 	conv3_flat = tf.reshape(conv3, [-1, 3136])
 	fc4 = tf.nn.RELU(tf.matmul(conv3_flat, W_fc4 + b_fc4))
@@ -67,7 +67,7 @@ def main():
 	inp, out = createGraph()
 	trainGraph(inp, out, sess)
 
-if __name__ = "__main__":
+if __name__ == "__main__":
 	main()
 
 

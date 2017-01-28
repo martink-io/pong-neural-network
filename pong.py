@@ -29,140 +29,139 @@ BLACK = (0, 0, 0)
 screen = pygame.display.set_mode(WINDOW_WIDHT, WINDOW_HEIGHT)
 
 def drawBall(ballXPos, ballYPos):
-  ball = pygame.rect(ballXpos, ballYpos, BALL_WIDTH, BALL_HEIGHT)
-  pygame.draw.rect(screen, WHITE, ball)
+    ball = pygame.rect(ballXpos, ballYpos, BALL_WIDTH, BALL_HEIGHT)
+    pygame.draw.rect(screen, WHITE, ball)
 
 def drawPlayerPaddle(playerPaddleYPos):
-  playerPaddle = pygame.rect(PADDLE_BUFFER, playerPaddleYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
-  pygame.draw.rect(screen, WHITE, playerPaddle)
+    playerPaddle = pygame.rect(PADDLE_BUFFER, playerPaddleYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
+    pygame.draw.rect(screen, WHITE, playerPaddle)
 
 def drawBotPaddle(botPaddleYPos):
-  botPaddle = pygame.rect(WINDOW_WIDTH - PADDLE_BUFFER - PADDLE_WIDTH, botPaddleYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
-  pygame.draw.rect(screen, WHITE, botPaddle)
+    botPaddle = pygame.rect(WINDOW_WIDTH - PADDLE_BUFFER - PADDLE_WIDTH, botPaddleYPos, PADDLE_WIDTH, PADDLE_HEIGHT)
+    pygame.draw.rect(screen, WHITE, botPaddle)
 
 def updateBall(playerPaddleYPos, botPaddleYPos, ballXPos, ballYPos):
-  # update x and y position
-  ballXPos = ballXPos + ballXDirection * BALL_X_SPEED
-  ballYPos = ballYPos + ballYDirection * BALL_Y_SPEED
-  score = 0
+    # update x and y position
+    ballXPos = ballXPos + ballXDirection * BALL_X_SPEED
+    ballYPos = ballYPos + ballYDirection * BALL_Y_SPEED
+    score = 0
   
-  # check for a collision
-  # if the ball hits the left side then switch direction
-  if(ballXPos <= PADDLE_BUFFER + PADDLE_WIDTH 
-      and ballYPos + BALL_HEIGHT >= playerPaddleYPos 
-      and ballYPos - BALL_HEIGHT <= playerPaddleYPos + PADDLE_HEIGHT):
-    ballXDirection = 1
-  elif(ballXPos <= 0):
-    ballXDirection = 1
-    score = -1
+    # check for a collision
+    # if the ball hits the left side then switch direction
+    if(ballXPos <= PADDLE_BUFFER + PADDLE_WIDTH 
+        and ballYPos + BALL_HEIGHT >= playerPaddleYPos 
+        and ballYPos - BALL_HEIGHT <= playerPaddleYPos + PADDLE_HEIGHT):
+        ballXDirection = 1
+    elif(ballXPos <= 0):
+        ballXDirection = 1
+        score = -1
     return [score, playerPaddleYPos, botPaddleYPos, ballXPos, ballYPos, ballXDirection, ballYDirection]
 
-  # if it hits the right side, switch direction
-  if(ballXPos >= WINDOW_WIDTH - PADDLE_WIDTH - PADDLE_BUFFER 
-      and ballYPos + BALL_HEIGHT >= botPaddleYPos 
-      and ballYPos - BALL_HEIGHT <= botPaddleYPos + PADDLE_HEIGHT):
-    ballXDirection = -1
-  elif(ballXPos >= WINDOW_WIDTH - BALL_WIDTH):
-    ballXDirection = -1
-    score = 1
+    # if it hits the right side, switch direction
+    if(ballXPos >= WINDOW_WIDTH - PADDLE_WIDTH - PADDLE_BUFFER 
+    and ballYPos + BALL_HEIGHT >= botPaddleYPos 
+    and ballYPos - BALL_HEIGHT <= botPaddleYPos + PADDLE_HEIGHT):
+        ballXDirection = -1
+    elif(ballXPos >= WINDOW_WIDTH - BALL_WIDTH):
+        ballXDirection = -1
+        score = 1
     return [score, playerPaddleYPos, botPaddleYPos, ballXPos, ballYPos, ballXDirection, ballYDirection]
 
-  # if the ball hits the top border, change direction
-  if(ballYPos <= 0):
-    ballYPos = 0
-    ballYDirection = 1
-  elif(ballYPos >= WINDOW_HEIGHT - BALL_HEIGHT):
-    ballYPos = WINDOW_HEIGHT - BALL_HEIGHT
-    ballYDirection = -1
+    # if the ball hits the top border, change direction
+    if(ballYPos <= 0):
+        ballYPos = 0
+        ballYDirection = 1
+    elif(ballYPos >= WINDOW_HEIGHT - BALL_HEIGHT):
+        ballYPos = WINDOW_HEIGHT - BALL_HEIGHT
+        ballYDirection = -1
     return [score, playerPaddleYPos, botPaddleYPos, ballXPos, ballYPos, ballXDirection, ballYDirection]
 
 def updatePlayerPaddle(action, playerPaddleYPos):
-  # if moves up
-  if(action[1] == 1):
-    playerPaddleYPos = playerPaddleYPos - PADDLE_SPEED
+    # if moves up
+    if(action[1] == 1):
+        playerPaddleYPos = playerPaddleYPos - PADDLE_SPEED
   
-  #if moves down
-  if(action[2] == 1):
-    playerPaddleYPos = playerPaddleYPos + PADDLE_SPEED
+    #if moves down
+    if(action[2] == 1):
+        playerPaddleYPos = playerPaddleYPos + PADDLE_SPEED
 
-  # prevent from moving outside the screen
-  if(playerPaddleYPos < 0):
-    playerPaddleYPos = 0
+    # prevent from moving outside the screen
+    if(playerPaddleYPos < 0):
+        playerPaddleYPos = 0
   
-  if(playerPaddleYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
-    playerPaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT
+    if(playerPaddleYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
+        playerPaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT
     
-  return playerPaddleYPos
+    return playerPaddleYPos
 
 def updateBotPaddle(action, ballYPos):
-  # if moves up
-  if(action[1] == 1):
-    botPaddleYPos = botPaddleYPos - PADDLE_SPEED
+    # if moves up
+    if(action[1] == 1):
+        botPaddleYPos = botPaddleYPos - PADDLE_SPEED
   
-  #if moves down
-  if(action[2] == 1):
-    botPaddleYPos = botPaddleYPos + PADDLE_SPEED
+    #if moves down
+    if(action[2] == 1):
+        botPaddleYPos = botPaddleYPos + PADDLE_SPEED
 
-  # prevent from moving outside the screen
-  if(botPaddleYPos < 0):
-    botPaddleYPos = 0
+    # prevent from moving outside the screen
+    if(botPaddleYPos < 0):
+        botPaddleYPos = 0
   
-  if(botYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
+    if(botYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
     botPaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT
     
-  return botPaddleYPos
+    return botPaddleYPos
 
 
 class PongGame:
-  def __init__ (self):
-    # random number for initial direction of ball
-    num = random.randInt()
-    # keep track of scores
-    self.tally = 0
-    # initialize positions of our paddle
-    self.playerPaddleYPos = WINDOW_HEIGHT/2 - PADDLE_HEIGHT/2
-    self.botPaddleYPos = WINDOW_HEIGH/2 - PADDLE_HEIGHT/2
-    # ball direction definition
-    self.ballXDirection = 1
-    self.ballYDirection = 1
-    # starting point
-    self.ballXPos = WINDOW_HEIGHT/2 - BALL_WIDTH/2
+    def __init__ (self):
+        # random number for initial direction of ball
+        num = random.randInt()
+        # keep track of scores
+        self.tally = 0
+        # initialize positions of our paddle
+        self.playerPaddleYPos = WINDOW_HEIGHT/2 - PADDLE_HEIGHT/2
+        self.botPaddleYPos = WINDOW_HEIGH/2 - PADDLE_HEIGHT/2
+        # ball direction definition
+        self.ballXDirection = 1
+        self.ballYDirection = 1
+        # starting point
+        self.ballXPos = WINDOW_HEIGHT/2 - BALL_WIDTH/2
 
-  def getPresentFrame(self):
-    # for each frame, call the event queue
-    pygame.event.pump()
-    # make background black
-    screen.fill(BLACK)
-    # draw our paddles
-    drawPlayerPaddle(self.playerPaddleYPos)
-    drawBotPaddle(self.botPaddleYPos)
-    # draw ball
-    drawBall(self.ballXPos, self.ballYPos)
+    def getPresentFrame(self):
+        # for each frame, call the event queue
+        pygame.event.pump()
+        # make background black
+        screen.fill(BLACK)
+        # draw our paddles
+        drawPlayerPaddle(self.playerPaddleYPos)
+        drawBotPaddle(self.botPaddleYPos)
+        # draw ball
+        drawBall(self.ballXPos, self.ballYPos)
 
-    # get pixels
-    image_data = pygame.surfarray.array3d(pygame.display.get_surface())
-    # update the window
-    pygame.display.flip()
-    # return the screen data
-    return image_data
+        # get pixels
+        image_data = pygame.surfarray.array3d(pygame.display.get_surface())
+        # update the window
+        pygame.display.flip()
+        # return the screen data
+        return image_data
     
-  def getNextFrame(self, action):
-    pygame.event.pump()
-    screen.fill(BLACK)
+    def getNextFrame(self, action):
+        pygame.event.pump()
+        screen.fill(BLACK)
 
-    self.playerPaddleYPos = updatePlayerPaddle(action, self.playerPaddleYPos)
-    drawPlayerPaddle(self.playerPaddleYPos)
+        self.playerPaddleYPos = updatePlayerPaddle(action, self.playerPaddleYPos)
+        drawPlayerPaddle(self.playerPaddleYPos)
 
-    self.botPaddleYPos = updateBotPaddle(self.botPaddleYPos, self.ballYPos)
-    drawBall(self.ballXPos, self.ballYPos)
+        self.botPaddleYPos = updateBotPaddle(self.botPaddleYPos, self.ballYPos)
+        drawBall(self.ballXPos, self.ballYPos)
 
-    # get pixels
-    image_data = pygame.surfarray.array3d(pygame.display.get_surface())
-    # update the window
-    pygame.display.flip()
-    # update the score
-    self.tally = self.tally + score
+        # get pixels
+        image_data = pygame.surfarray.array3d(pygame.display.get_surface())
+        # update the window
+        pygame.display.flip()
+        # update the score
+        self.tally = self.tally + score
 
-    # return the screen data
-    return [score, image_data]
-
+        # return the screen data
+        return [score, image_data]
