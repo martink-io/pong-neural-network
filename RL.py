@@ -60,5 +60,14 @@ def createGraph():
 
 	return s, fc5
 
+def main():
+	# create session
+	sess = tf.InteractiveSession()
+	#input and output layers
+	inp, out = createGraph()
+	trainGraph(inp, out, sess)
+
+if __name__ = "__main__":
+	main()
 
 
