@@ -128,4 +128,41 @@ class PongGame:
     # starting point
     self.ballXPos = WINDOW_HEIGHT/2 - BALL_WIDTH/2
 
-  
+  def getPresentFrame(self):
+    # for each frame, call the event queue
+    pygame.event.pump()
+    # make background black
+    screen.fill(BLACK)
+    # draw our paddles
+    drawPlayerPaddle(self.playerPaddleYPos)
+    drawBotPaddle(self.botPaddleYPos)
+    # draw ball
+    drawBall(self.ballXPos, self.ballYPos)
+
+    # get pixels
+    image_data = pygame.surfarray.array3d(pygame.display.get_surface())
+    # update the window
+    pygame.display.flip()
+    # return the screen data
+    return image_data
+    
+  def getNextFrame(self, action):
+    pygame.event.pump()
+    screen.fill(BLACK)
+
+    self.playerPaddleYPos = updatePlayerPaddle(action, self.playerPaddleYPos)
+    drawPlayerPaddle(self.playerPaddleYPos)
+
+    self.botPaddleYPos = updateBotPaddle(self.botPaddleYPos, self.ballYPos)
+    drawBall(self.ballXPos, self.ballYPos)
+
+    # get pixels
+    image_data = pygame.surfarray.array3d(pygame.display.get_surface())
+    # update the window
+    pygame.display.flip()
+    # update the score
+    self.tally = self.tally + score
+
+    # return the screen data
+    return [score, image_data]
+
