@@ -76,16 +76,38 @@ def updateBall(playerPaddleYPos, botPaddleYPos, ballXPos, ballYPos):
     ballYDirection = -1
     return [score, playerPaddleYPos, botPaddleYPos, ballXPos, ballYPos, ballXDirection, ballYDirection]
 
+def updatePlayerPaddle(action, playerPaddleYPos):
+  # if moves up
+  if(action[1] == 1):
+    playerPaddleYPos = playerPaddleYPos - PADDLE_SPEED
+  
+  #if moves down
+  if(action[2] == 1):
+    playerPaddleYPos = playerPaddleYPos + PADDLE_SPEED
 
+  # prevent from moving outside the screen
+  if(playerPaddleYPos < 0):
+    playerPaddleYPos = 0
+  
+  if(playerPaddleYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
+    playerPaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT
+    
+  return playerPaddleYPos
 
+def updateBotPaddle(action, ballYPos):
+  # if moves up
+  if(action[1] == 1):
+    botPaddleYPos = botPaddleYPos - PADDLE_SPEED
+  
+  #if moves down
+  if(action[2] == 1):
+    botPaddleYPos = botPaddleYPos + PADDLE_SPEED
 
-
-
-
-
-
-
-
-
-
-
+  # prevent from moving outside the screen
+  if(botPaddleYPos < 0):
+    botPaddleYPos = 0
+  
+  if(botYPos > WINDOW_HEIGHT - PADDLE_HEIGHT):
+    botPaddleYPos = WINDOW_HEIGHT - PADDLE_HEIGHT
+    
+  return botPaddleYPos
